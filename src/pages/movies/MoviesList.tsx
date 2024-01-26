@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import MovieItems from "../../common/components/MovieItems";
-import SearchBar from "../../common/components/SearchBar";
-import { getMovies, getMoviesDetails } from "../../common/apis/getMovies";
+import { useEffect, useState } from "react";
 import MovieDetailModal from "./MovieDetailModal";
+import { getMovies, getMoviesDetails } from "../../common/apis/getMovies";
+import SearchBar from "../../common/components/SearchBar";
+import MovieItems from "../../common/components/MovieItems";
 
 const MoviesList = () => {
   const [search, setSearch] = useState("");
@@ -15,9 +15,10 @@ const MoviesList = () => {
   useEffect(() => {
     getMoviesList();
     getMovieDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, selectedImdbId]);
 
-  const handleSelectMovie = (data) => {
+  const handleSelectMovie = (data: any) => {
     setShowMovieDetails(true);
     setSelectedImdbId(data.imdbID);
   };
@@ -45,8 +46,9 @@ const MoviesList = () => {
     }
   };
   const getMovieDetail = () => {
+    setLoading(true);
     try {
-      getMoviesDetails(selectedImdbId)
+      getMoviesDetails(selectedImdbId ? selectedImdbId : 0)
         .then((res) => {
           const response = res;
           if (response) {
@@ -68,8 +70,8 @@ const MoviesList = () => {
   };
 
   return (
-    <div className="flex w-full min-h-screen justify-center p-10 items-center flex-col relative">
-      <div className="text-9xl font-serif font-extrabold m-2">
+    <div className="flex w-full min-h-screen justify-start items-center flex-col relative">
+      <div className="text-9xl font-serif font-extrabold m-10">
         <span className="text-red-600">S</span>
         <span className="text-yellow-400">E</span>
         <span className="text-green-600">A</span>
@@ -83,7 +85,7 @@ const MoviesList = () => {
         <div className="home w-2/5 p-3 border rounded-3xl border-gray-600 flex flex-col justify-center items-center">
           <SearchBar setSearch={setSearch} search={search} />
 
-          {movieList.map((data, index) => {
+          {movieList?.map((data, index) => {
             return (
               <div
                 onClick={() => {
@@ -92,12 +94,7 @@ const MoviesList = () => {
                 className="w-full pl-2 m-1"
                 key={index}
               >
-                <MovieItems
-                  Poster={data.Poster}
-                  Title={data.Title}
-                  Type={data.Type}
-                  Year={data.Year}
-                />
+                <MovieItems data={data} />
               </div>
             );
           })}
@@ -113,16 +110,8 @@ const MoviesList = () => {
           className="absolute w-full h-screen place-content-center bg-zinc-900/90 flex justify-center, items-center"
         >
           <MovieDetailModal
-            Poster={movieDetail.Poster}
-            Title={movieDetail.Title}
-            Type={movieDetail.Type}
-            Year={movieDetail.Year}
-            Actors={movieDetail.Actors}
-            Rating={movieDetail.imdbRating}
-            Plot={movieDetail.Plot}
-            Director={movieDetail.Director}
-            Genre={movieDetail.Genre}
-            Rated={movieDetail.Rated}
+            loading={loading}
+            movieDetail={movieDetail}
             setShowMovieDetails={setShowMovieDetails}
           />
         </div>

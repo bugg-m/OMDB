@@ -1,9 +1,6 @@
-import React from "react";
 import { ImSearch } from "react-icons/im";
 
-const SearchBar = (props) => {
-  const { setSearch, search } = props;
-
+const SearchBar = ({ setSearch, search }: any) => {
   return (
     <div className="w-full flex justify-center items-center">
       <ImSearch />
