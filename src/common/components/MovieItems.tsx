@@ -1,6 +1,6 @@
-const MovieItems = ({ data }: any) => {
-  const { Poster, Title, Type, Year } = data;
+import { MovieDetails } from "../../types/types";
 
+const MovieItems = ({ Poster, Title, Type, Year }: MovieDetails) => {
   return (
     <div className="w-full border-b-2 gap-4 h-8 flex items-center cursor-pointer">
       <img className="w-5 h-5 rounded-full" src={Poster} alt="Movie Poster" />

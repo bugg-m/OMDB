@@ -1,23 +1,20 @@
 import { CgClose } from "react-icons/cg";
-const MovieDetailModal = ({ movieDetail }: any, { loading }: any) => {
-  const {
-    Poster,
-    Title,
-    Type,
-    Year,
-    Actors,
-    Rating,
-    Plot,
-    Director,
-    Rated,
-    setShowMovieDetails,
-  } = movieDetail;
-
+import { MovieDetails } from "../../types/types";
+import { Dispatch } from "react";
+const MovieDetailModal = (
+  movieDetails: MovieDetails,
+  loading: boolean,
+  setShowMovieDetails: Dispatch<React.SetStateAction<boolean>>
+) => {
+  const { Poster, Title, Type, Year, Actors, Rating, Plot, Director, Rated } =
+    movieDetails;
   return (
     <div className="w-4/5 min-h-60 rounded-xl cursor-pointer p-10 bg-white relative">
       <CgClose
         className="right-10 top-10 absolute text-2xl"
-        onClick={() => setShowMovieDetails(false)}
+        onClick={() =>
+          setShowMovieDetails ? setShowMovieDetails(false) : false
+        }
       />
       {loading ? (
         <div>Loading...</div>
